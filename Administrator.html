@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="x-icon" href="photoadm.png">
+    <title>Admin - Bayaran Perpisahan</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(-45deg, #3494e6, #ec6ead, #f7941e, #2f80ed);
+            background-size: 400% 400%;
+            animation: animate 7s infinite alternate;
+            text-align: center;
+        }
+        h1 {
+            color: white;
+        }
+        table {
+            width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background: white;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background: #f2f2f2;
+        }
+        td[contenteditable="true"] {
+            background: #ffffcc;
+            cursor: pointer;
+        }
+        button {
+            margin: 10px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .save {
+            background: green;
+            color: white;
+            border: none;
+        }
+        .reset {
+            background: red;
+            color: white;
+            border: none;
+        }
+        a {
+            display: block;
+            margin-top: 20px;
+            color: blue;
+            text-decoration: none;
+        }
+        a:hover {
+            color: darkblue;
+        }
+        @keyframes animate {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>ADMIN - Bayaran Perpisahan</h1>
+
+    <table id="tabel">
+        <tr>
+            <th>No.</th>
+            <th>Nama</th>
+            <th>Pembayaran</th>
+            <th>Status</th>
+        </tr>
+        <tr><td>1</td><td>Arjuna</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><td>2</td><td>Ali</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><td>3</td><td><s>Abay</s></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><td>4</td><td>Ata</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><td>5</td><td>Balqis</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><td>6</td><td>Caca R</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><td>7</td><td>Caca A</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><td>8</td><td>Desi</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><td>9</td><td>Dani</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><td>10</td><td>Firda</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><td>11</td><td>Fatar</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><td>12</td><td>Farel</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><td>13</td><td>Fajar</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><td>14</td><td>Gibran</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><td>15</td><td>Iky</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><td>16</td><td>Kayla</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><td>17</td><td>Lulu</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><td>18</td><td>Nahla</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><td>19</td><td>Natan</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><td>20</td><td>Rafi</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><td>21</td><td>Raddit</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><td>22</td><td>Shafwan</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><td>23</td><td>Sadewa</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><td>24</td><td>Saipul</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><td>25</td><td>Sultan</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><td>26</td><td>Stela</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><td>27</td><td>Salmah</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><td>28</td><td>Syaip</td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+    </table>
+
+    <button class="save" onclick="simpanData()">Simpan</button>
+    <button class="reset" onclick="resetData()">Reset</button>
+
+    <a href="Al-Istiqomah.html"><button>Kembali ke Menu Utama</button></a>
+
+    <script>
+        // Load data dari local storage saat halaman dibuka
+        window.onload = function() {
+            if (localStorage.getItem("tabelData")) {
+                document.getElementById("tabel").innerHTML = localStorage.getItem("tabelData");
+            }
+        };
+
+        // Fungsi untuk menyimpan perubahan ke local storage
+        function simpanData() {
+            localStorage.setItem("tabelData", document.getElementById("tabel").innerHTML);
+            alert("Data berhasil disimpan!");
+        }
+
+        // Fungsi untuk mereset data
+        function resetData() {
+            localStorage.removeItem("tabelData");
+            location.reload();
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="x-icon" href="photo.jpg">
+    <title>Galeri Pengajian</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(-45deg, #3494e6, #1bf3ff, #421ef7, #5900e0);
+            background-size: 400% 400%;
+            animation: animate 7s infinite alternate;
+            
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+        h1 {
+            color: white;
+            font-size: 2.5em;
+            font-family: "Bebas Neue", sans-serif;
+            margin-bottom: 20px;
+        }
+        h2{
+         color: white;
+        }
+        .gallery {
+            
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            border: 2px solid white;
+        }
+        .gallery img, .gallery video {
+            width: 200px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        a {
+            display: block;
+            margin-top: 20px;
+            color: blue;
+            text-decoration: none;
+        }
+        a:hover {
+            color: darkblue;
+        }
+        @keyframes animate {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 100% 50%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div>
+        <h1>Galeri Foto & Video</h1>
+        <div class="gallery">
+         <h2>Perpisahan sementara 2024</h2>
+            <img src="Galeri/IMG20240307212738.jpg" alt="Penutupan sementara">
+            <img src="Galeri/IMG20240307212955.jpg" alt="-">
+            <img src="Galeri/IMG20240307213003.jpg" alt="-">
+            <img src="Galeri/IMG20240307213016.jpg" alt="-">
+            <img src="Galeri/IMG20240307212800.jpg" alt="-">
+            <video controls>
+                <source src="video1.mp4" type="video/mp4">
+            </video>
+            <video controls>
+                <source src="video2.mp4" type="video/mp4">
+            </video>
+        </div>
+                <div class="gallery">
+         <h2>Hari Guru 2024</h2>
+            <img src="Galeri/IMG-20241125-WA0007.jpg" alt="Penutupan sementara">
+            <img src="Galeri/IMG-20241125-WA0011.jpg" alt="-">
+            <img src="Galeri/IMG-20241125-WA0021.jpg" alt="-">
+            <img src="Galeri/25c2bb2cbbc517b9192a4ca876ff8fe9.jpg" style="height: 300px">
+            <video controls>
+                <source src="video2.mp4" type="video/mp4">
+            </video>
+        </div>
+        <a href="Al-Istiqomah.html"><button>Kembali ke Menu Utama</button></a>
+    </div>
+
+</body>
+</html>

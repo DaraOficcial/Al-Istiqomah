@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="x-icon" href="photo.jpg">
+    <title>Siswa - Bayaran Perpisahan</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(-45deg, #3494e6, #ec6ead, #f7941e, #2f80ed);
+            background-size: 400% 400%;
+            animation: animate 7s infinite alternate;
+            text-align: center;
+        }
+        h1, h2{
+            color: white;
+        }
+        table {
+            width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background: white;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background: #f2f2f2;
+        }
+        .lunas {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+        .dicoret {
+            text-decoration: line-through;
+            color: ;
+        }
+        a {
+            display: block;
+            margin-top: 20px;
+            color: blue;
+            text-decoration: none;
+        }
+        a:hover {
+            color: darkblue;
+        }
+        @keyframes animate {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>BAYARAN PERPISAHAN SEMENTARA</h1>
+<h2>BULAN SUCI RAMADHAN 2025</h2>
+    <table id="tabel">
+        <tr>
+            <th>No.</th>
+            <th>Nama</th>
+            <th>Pembayaran</th>
+            <th>Status</th>
+        </tr>
+            <script>
+        // Load data dari local storage
+        window.onload = function() {
+            if (localStorage.getItem("tabelData")) {
+                document.getElementById("tabel").innerHTML = localStorage.getItem("tabelData");
+                highlightLunas(); // Jalankan fungsi pewarnaan
+                coretNama(); // Jalankan fungsi mencoret nama
+            } else {
+                alert("Data belum tersedia. Silakan minta admin untuk mengisi data.");
+            }
+        };
+
+        function highlightLunas() {
+            let cells = document.querySelectorAll("#tabel td:nth-child(3)"); // Ambil kolom pembayaran
+            cells.forEach(cell => {
+                if (cell.innerText.trim().toLowerCase() === "lunas") {
+                    cell.classList.add("lunas"); // Tambahkan kelas hijau jika "Lunas"
+                }
+            });
+        }
+
+        function coretNama() {
+            let namaDicoret = ["Ali", "Abay", "Syaip"]; // Daftar nama yang dicoret
+            let namaCells = document.querySelectorAll("#tabel td:nth-child(2)"); // Ambil kolom nama
+            namaCells.forEach(cell => {
+                if (namaDicoret.includes(cell.innerText.trim())) {
+                    cell.classList.add("dicoret"); // Tambahkan kelas garis tengah
+                }
+            });
+        }
+    </script>
+    </table>
+
+    <a href="Al-Istiqomah.html"><button>Kembali ke Menu Utama</button></a>
+
+
+
+</body>
+</html>
