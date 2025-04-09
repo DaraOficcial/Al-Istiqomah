@@ -91,8 +91,16 @@ h1 {
         <h1>Pengajian Al-Istiqomah</h1>
         <div class="menu">
             <a href="galeri.html">Galeri Foto & Video</a>
-            <a href="keuangan.html">Laporan Keuangan</a>
+            <a onclick="document.querySelector('.hiddenk').style.display = 'block';
+            document.querySelector('.menu').style.display = 'none';">Laporan Keuangan</a>
             <a href="anggota.html">Daftar Anggota</a>
+        </div>
+        <div class="hiddenk" style="display: none;">
+            <h2>Hidden Information</h2>
+            <h3>Keuangan tidak di tampilkan</h3>
+            <button style="width: 250px; height: 60px; top; 80px;"
+            onclick="document.querySelector('.hiddenk').style.display = 'none';
+            document.querySelector('.menu').style.display = 'block';">KEMBALI.</button>
         </div>
   <div class="advertisement">Advertisement Placeholder</div>
         <div class="footer">@2025 Website BY DaraXz All rights reserved</div>
