@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FutureOS Multi-Window with Taskbar</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: #fff;
+    overflow: hidden;
+  }
+  .taskbar {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    padding: 5px;
+  }
+  .start-button {
+    background: #1f4068;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+  .taskbar-apps {
+    display: flex;
+    gap: 5px;
+    flex: 1;
+  }
+  .taskbar-app {
+    background: #1b3b5f;
+    padding: 5px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  .desktop {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 100px);
+    gap: 20px;
+    padding: 40px;
+  }
+  .icon {
+    text-align: center;
+    cursor: pointer;
+  }
+  .icon img {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 5px;
+    transition: transform 0.3s;
+  }
+  .icon:hover img {
+    transform: scale(1.1);
+  }
+  .window {
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    width: 300px;
+    background: rgba(0,0,0,0.85);
+    border: 2px solid #1f4068;
+    border-radius: 10px;
+    padding: 10px;
+    z-index: 10;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  }
+  .window-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #1f4068;
+    padding: 5px 10px;
+    border-radius: 8px 8px 0 0;
+    cursor: grab;
+    user-select: none;
+  }
+  .window-header span {
+    font-weight: bold;
+  }
+  .close-btn {
+    cursor: pointer;
+    background: #ff4d4d;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    color: #fff;
+    text-align: center;
+    line-height: 20px;
+    font-weight: bold;
+  }
+  .start-menu {
+    position: absolute;
+    bottom: 50px;
+    left: 10px;
+    width: 200px;
+    background: rgba(0,0,0,0.8);
+    border-radius: 10px;
+    padding: 15px;
+    display: none;
+    animation: fadeIn 0.3s ease;
+  }
+  .start-menu h3 {
+    margin: 0 0 10px;
+    font-size: 18px;
+    border-bottom: 1px solid #444;
+    padding-bottom: 5px;
+  }
+  .start-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .start-menu li {
+    padding: 8px 0;
+    cursor: pointer;
+  }
+  .start-menu li:hover {
+    background: rgba(255,255,255,0.1);
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<div class="desktop">
+  <div class="icon" onclick="openApp('Browser')">
+    <img src="https://cdn-icons-png.flaticon.com/512/716/716784.png" alt="Browser">
+    <div>Browser</div>
+  </div>
+  <div class="icon" onclick="openApp('Music Player')">
+    <img src="https://cdn-icons-png.flaticon.com/512/716/716731.png" alt="Music">
+    <div>Music</div>
+  </div>
+  <div class="icon" onclick="openApp('Settings')">
+    <img src="https://cdn-icons-png.flaticon.com/512/716/716774.png" alt="Settings">
+    <div>Settings</div>
+  </div>
+</div>
+
+<div class="taskbar">
+  <button class="start-button" id="startBtn">☰ Menu</button>
+  <div class="taskbar-apps" id="taskbarApps"></div>
+  <div id="clock"></div>
+</div>
+
+<div class="start-menu" id="startMenu">
+  <h3>Start Menu</h3>
+  <ul>
+    <li onclick="openApp('My Files')">My Files</li>
+    <li onclick="openApp('Terminal')">Terminal</li>
+    <li onclick="openApp('Shutdown')">Shutdown</li>
+  </ul>
+</div>
+
+<script>
+function updateClock() {
+  const now = new Date();
+  document.getElementById('clock').textContent = now.toLocaleTimeString();
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+const startBtn = document.getElementById('startBtn');
+const startMenu = document.getElementById('startMenu');
+const taskbarApps = document.getElementById('taskbarApps');
+const windows = {};
+
+startBtn.addEventListener('click', () => {
+  startMenu.style.display = startMenu.style.display === 'none' || startMenu.style.display === '' ? 'block' : 'none';
+});
+
+document.addEventListener('click', (e) => {
+  if (!startBtn.contains(e.target) && !startMenu.contains(e.target)) {
+    startMenu.style.display = 'none';
+  }
+});
+
+function openApp(appName) {
+  if (windows[appName]) {
+    focusWindow(appName);
+    return;
+  }
+
+  const appWindow = document.createElement('div');
+  appWindow.className = 'window';
+  appWindow.id = `window-${appName}`;
+  appWindow.innerHTML = `
+    <div class="window-header">
+      <span>${appName}</span>
+      <button class="close-btn">&times;</button>
+    </div>
+    <div class="window-content">
+      <p>Welcome to ${appName} app!</p>
+    </div>
+  `;
+  document.body.appendChild(appWindow);
+
+  const closeBtn = appWindow.querySelector('.close-btn');
+  closeBtn.addEventListener('click', () => {
+    appWindow.remove();
+    delete windows[appName];
+    const taskBtn = document.getElementById(`task-${appName}`);
+    if (taskBtn) taskBtn.remove();
+  });
+
+  // Add to taskbar
+  const taskBtn = document.createElement('div');
+  taskBtn.className = 'taskbar-app';
+  taskBtn.id = `task-${appName}`;
+  taskBtn.textContent = appName;
+  taskBtn.addEventListener('click', () => focusWindow(appName));
+  taskbarApps.appendChild(taskBtn);
+
+  windows[appName] = appWindow;
+
+  // Make window draggable (mouse)
+  let isDragging = false, offsetX, offsetY;
+  const header = appWindow.querySelector('.window-header');
+  header.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    offsetX = e.clientX - appWindow.offsetLeft;
+    offsetY = e.clientY - appWindow.offsetTop;
+  });
+  document.addEventListener('mouseup', () => isDragging = false);
+  document.addEventListener('mousemove', (e) => {
+    if (isDragging) {
+      appWindow.style.left = `${e.clientX - offsetX}px`;
+      appWindow.style.top = `${e.clientY - offsetY}px`;
+    }
+  });
+
+  // Make window draggable (touch)
+  header.addEventListener('touchstart', (e) => {
+    isDragging = true;
+    const touch = e.touches[0];
+    offsetX = touch.clientX - appWindow.offsetLeft;
+    offsetY = touch.clientY - appWindow.offsetTop;
+  });
+  document.addEventListener('touchend', () => isDragging = false);
+  document.addEventListener('touchmove', (e) => {
+    if (isDragging) {
+      const touch = e.touches[0];
+      appWindow.style.left = `${touch.clientX - offsetX}px`;
+      appWindow.style.top = `${touch.clientY - offsetY}px`;
+    }
+  });
+}
+
+function focusWindow(appName) {
+  const win = windows[appName];
+  if (win) {
+    // Bring to front
+    win.style.zIndex = `${Date.now()}`;
+    win.style.display = 'block';
+  }
+}
+</script>
+
+</body>
+</html>
